@@ -2,6 +2,7 @@ package evseid
 
 import (
 	"fmt"
+	v "github.com/go-ozzo/ozzo-validation"
 	c "mobilityid/common"
 	"regexp"
 	"strings"
@@ -65,22 +66,30 @@ func validateDin(countryCode, operatorCode, powerOutletId string) error {
 		code = countryCode[1:]
 	}
 
-	if i := len(code); i < 1 || i > 3 {
-		return fmt.Errorf("country code '%s' has leading '+' but doesn't match expected length (2 to 4)", code)
+	if err := v.Validate(code, v.Required, v.Length(2, 4)); err != nil {
+		return err
 	}
 
-	for _, r := range code {
-		if !unicode.IsDigit(r) {
-			return fmt.Errorf("country code '%s' can only contain a leading (optional) '+' following by 1 to 3 digits", countryCode)
+	err := v.Validate(code, v.By(func(value interface{}) error {
+		num := value.(string)
+		for _, r := range num {
+			if !unicode.IsDigit(r) {
+				return fmt.Errorf("country code '%s' can only contain a leading (optional) '+' following by 1 to 3 digits", countryCode)
+			}
 		}
+
+		return nil
+	}))
+	if err != nil {
+		return err
 	}
 
-	if i := len(operatorCode); i < 3 || i > 6 {
-		return fmt.Errorf("operator code '%s' doesn't match length (2 < x < 7)", operatorCode)
+	if err := v.Validate(operatorCode, v.Required, v.Length(2, 6)); err != nil {
+		return err
 	}
 
-	if i := len(powerOutletId); i == 0 || i > 31 {
-		return fmt.Errorf("power outlet id '%s' doesn't match expected length (0 < x < 32)", powerOutletId)
+	if err := v.Validate(powerOutletId, v.Required, v.Length(1, 31)); err != nil {
+		return err
 	}
 
 	return nil

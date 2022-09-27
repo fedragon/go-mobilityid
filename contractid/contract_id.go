@@ -1,9 +1,9 @@
 package contractid
 
 import (
-	"errors"
 	"fmt"
-	"mobilityid/common"
+	v "github.com/go-ozzo/ozzo-validation"
+	c "mobilityid/common"
 	"strings"
 )
 
@@ -95,24 +95,28 @@ func (id *contractId) CompactStringNoCheckDigit() string {
 
 // validateNoCheckDigit validates provided inputs
 func validateNoCheckDigit(countryCode, partyCode, instance string, instanceMaxLength int) error {
-	if len(countryCode) != 2 {
-		return fmt.Errorf("country code '%s' doesn't match expected length (2)", countryCode)
+	err := v.Validate(
+		countryCode,
+		v.Required,
+		v.Length(2, 2),
+		v.By(
+			func(value interface{}) error {
+				if !c.IsValidCountryCode(value.(string)) {
+					return fmt.Errorf("country code '%s' is not valid", value.(string))
+				}
+				return nil
+			}),
+	)
+	if err != nil {
+		return err
 	}
 
-	if !common.IsValidCountryCode(countryCode) {
-		return fmt.Errorf("country code '%s' is not valid", countryCode)
+	if err := v.Validate(partyCode, v.Required, v.Length(3, 3)); err != nil {
+		return err
 	}
 
-	if len(partyCode) != 3 {
-		return fmt.Errorf("party code '%s' doesn't match length (3)", partyCode)
-	}
-
-	if len(instance) == 0 {
-		return errors.New("instance value cannot be empty")
-	}
-
-	if len(instance) > instanceMaxLength {
-		return fmt.Errorf("instance value '%s' exceeds max length (%v)", instance, instanceMaxLength)
+	if err := v.Validate(instance, v.Required, v.Length(1, instanceMaxLength)); err != nil {
+		return err
 	}
 
 	return nil

@@ -12,7 +12,7 @@ var (
 		InstanceValue: "000071",
 		CheckDigit:    '9',
 	}
-	dinExpectedId                 = &DinContractId{newContractId(dinInput.CountryCode, dinInput.PartyCode, dinInput.InstanceValue, dinInput.CheckDigit)}
+	dinExpectedId                = &DinContractId{newContractId(dinInput.CountryCode, dinInput.PartyCode, dinInput.InstanceValue, dinInput.CheckDigit)}
 	assertValidDinId             = NewAssertValidId(dinInput.CountryCode, dinInput.PartyCode, dinInput.InstanceValue, dinInput.CheckDigit)
 	assertValidDinIdNoCheckDigit = NewAssertValidIdNoCheckDigit(dinInput.CountryCode, dinInput.PartyCode, dinInput.InstanceValue)
 )

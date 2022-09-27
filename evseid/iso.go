@@ -2,6 +2,7 @@ package evseid
 
 import (
 	"fmt"
+	v "github.com/go-ozzo/ozzo-validation"
 	c "mobilityid/common"
 	"regexp"
 	"strings"
@@ -69,20 +70,28 @@ func ParseIso(input string) (*IsoEvseId, error) {
 }
 
 func validateIso(countryCode, operatorCode, powerOutletId string) error {
-	if len(countryCode) != 2 {
-		return fmt.Errorf("country code '%s' doesn't match expected length (2)", countryCode)
+	err := v.Validate(
+		countryCode,
+		v.Required,
+		v.Length(2, 2),
+		v.By(
+			func(value interface{}) error {
+				if !c.IsValidCountryCode(value.(string)) {
+					return fmt.Errorf("country code '%s' is not valid", value.(string))
+				}
+				return nil
+			}),
+	)
+	if err != nil {
+		return err
 	}
 
-	if !c.IsValidCountryCode(countryCode) {
-		return fmt.Errorf("country code '%s' is not valid", countryCode)
+	if err := v.Validate(operatorCode, v.Required, v.Length(3, 3)); err != nil {
+		return err
 	}
 
-	if len(operatorCode) != 3 {
-		return fmt.Errorf("operator code '%s' doesn't match length (3)", operatorCode)
-	}
-
-	if i := len(powerOutletId); i == 0 || i > 31 {
-		return fmt.Errorf("power outlet id '%s' doesn't match expected length (0 < x < 32)", powerOutletId)
+	if err := v.Validate(powerOutletId, v.Required, v.Length(1, 31)); err != nil {
+		return err
 	}
 
 	return nil
