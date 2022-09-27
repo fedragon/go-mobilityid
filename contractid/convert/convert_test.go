@@ -2,13 +2,14 @@ package convert
 
 import (
 	"github.com/stretchr/testify/assert"
-	"mobilityid/contractid"
+	"mobilityid/contractid/din"
+	"mobilityid/contractid/emi3"
 	"testing"
 )
 
 func TestDinToEmi3(t *testing.T) {
 	t.Run("converts a DIN into a valid EMI3 contract id if it has a leading 0", func(t *testing.T) {
-		dinContractId, err := contractid.NewDinContractId(
+		dinContractId, err := din.NewContractId(
 			"NL",
 			"TNM",
 			"012204",
@@ -25,7 +26,7 @@ func TestDinToEmi3(t *testing.T) {
 
 func TestEmi3ToDin(t *testing.T) {
 	t.Run("converts an EMI3 into a valid DIN contract id", func(t *testing.T) {
-		emi3ContractId, err := contractid.NewEmi3ContractId(
+		emi3ContractId, err := emi3.NewContractId(
 			"NL",
 			"TNM",
 			"00122045",
@@ -40,7 +41,7 @@ func TestEmi3ToDin(t *testing.T) {
 	})
 
 	t.Run("returns an error if it does not have a leading 0", func(t *testing.T) {
-		emi3ContractId, err := contractid.NewEmi3ContractId(
+		emi3ContractId, err := emi3.NewContractId(
 			"NL",
 			"TNM",
 			"33122045",
@@ -56,7 +57,7 @@ func TestEmi3ToDin(t *testing.T) {
 
 func TestEmi3ToIso(t *testing.T) {
 	t.Run("converts an EMI3 into a valid ISO contract id", func(t *testing.T) {
-		emi3ContractId, err := contractid.NewEmi3ContractId(
+		emi3ContractId, err := emi3.NewContractId(
 			"NL",
 			"TNM",
 			"00122045",

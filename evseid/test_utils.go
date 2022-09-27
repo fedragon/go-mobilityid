@@ -7,11 +7,12 @@ import (
 )
 
 type TestInput struct {
-	CountryCode string
-	OperatorCode string
+	CountryCode   string
+	OperatorCode  string
 	PowerOutletId string
 }
-func assertIsError(t *testing.T, _ Reader, err error) {
+
+func AssertIsError(t *testing.T, _ Reader, err error) {
 	assert.NotNil(t, err)
 }
 

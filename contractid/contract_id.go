@@ -33,7 +33,7 @@ type contractId struct {
 	Reader
 }
 
-func newContractId(countryCode, partyCode, instanceValue string, checkDigit rune) *contractId {
+func Id(countryCode, partyCode, instanceValue string, checkDigit rune) *contractId {
 	return &contractId{
 		countryCode:   countryCode,
 		partyCode:     partyCode,
@@ -42,32 +42,32 @@ func newContractId(countryCode, partyCode, instanceValue string, checkDigit rune
 	}
 }
 
-// CountryCode returns the contract's country code
+// CountryCode returns the country code
 func (id *contractId) CountryCode() string {
 	return id.countryCode
 }
 
-// PartyCode returns the contract's party code
+// PartyCode returns the party code
 func (id *contractId) PartyCode() string {
 	return id.partyCode
 }
 
-// InstanceValue returns the contract's emi3InstanceValue value
+// InstanceValue returns the instance value
 func (id *contractId) InstanceValue() string {
 	return id.instanceValue
 }
 
-// CheckDigit returns the contract's check digit
+// CheckDigit returns the check digit
 func (id *contractId) CheckDigit() rune {
 	return id.checkDigit
 }
 
-// PartyId returns this contracts' party ID
+// PartyId returns the party ID
 func (id *contractId) PartyId() string {
 	return id.CountryCode() + "-" + id.PartyCode()
 }
 
-// CompactPartyId returns this contracts' party ID without separator
+// CompactPartyId returns the party ID without separator
 func (id *contractId) CompactPartyId() string {
 	return id.CountryCode() + id.PartyCode()
 }
@@ -93,8 +93,8 @@ func (id *contractId) CompactStringNoCheckDigit() string {
 	return compact[:len(compact)-1]
 }
 
-// validateNoCheckDigit validates provided inputs
-func validateNoCheckDigit(countryCode, partyCode, instance string, instanceMaxLength int) error {
+// ValidateNoCheckDigit validates provided inputs
+func ValidateNoCheckDigit(countryCode, partyCode, instance string, instanceMaxLength int) error {
 	err := v.Validate(
 		countryCode,
 		v.Required,

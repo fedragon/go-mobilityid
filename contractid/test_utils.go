@@ -6,13 +6,13 @@ import (
 )
 
 type TestInput struct {
-	CountryCode string
-	PartyCode string
+	CountryCode   string
+	PartyCode     string
 	InstanceValue string
-	CheckDigit rune
+	CheckDigit    rune
 }
 
-func assertIsError(t *testing.T, _ Reader, err error) {
+func AssertIsError(t *testing.T, _ Reader, err error) {
 	assert.NotNil(t, err)
 }
 

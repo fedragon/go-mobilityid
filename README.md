@@ -4,20 +4,21 @@ Porting of the Scala [MobilityId](https://github.com/ShellRechargeSolutionsEU/mo
 
 ## Features
 
-- Create instances of DIN91826, ISO15118-1, or eMI3 contract IDs
-- Compute (or validate, if provided) their check digit
+- Creates instances of DIN91826, ISO15118-1, or eMI3 contract IDs
+- Creates instances of DIN91826 or ISO15118-1 EVSE IDs
+- Computes (or validates, if provided) their check digit
 
 ## Usage
 
 ```go
 // Contract IDs
 
-emi3Id, err := contractid.NewEmi3ContractIdNoCheckDigit("NL", "TNM", "00122045")
+emi3Id, err := emi3.NewContractIdNoCheckDigit("NL", "TNM", "00122045")
 if err != nil {
   // ...
 }
 
-emi3Id, err = contractid.NewEmi3ContractId("NL", "TNM", "00122045", 'K')
+emi3Id, err = emi3.NewContractId("NL", "TNM", "00122045", 'K')
 if err != nil {
   // ...
 }
@@ -43,7 +44,7 @@ fmt.Println(dinId.String()) // "NL-TNM-012204-5"
 
 // EVSE IDs
 
-isoId, err := evseid.NewIsoEvseId("NL", "TNM", "030123456*0")
+isoId, err := iso.NewEvseId("NL", "TNM", "030123456*0")
 if err != nil {
   // ...
 }
@@ -62,8 +63,8 @@ fmt.Println(isoId.CompactString()) // "NLTNME0301234560"
 
 Given the EMI3 contract ID `NL-TNM-C12345678-J`, getting the `instanceValue`:
 
-- from the Scala implementation (at the moment of writing, `v1.1.0`), will return `C12345678`
-- from this library's implementation, will return `12345678`
+- the Scala library will return (at the moment of writing, `v1.1.0`) `C12345678`
+- this library's implementation, will return `12345678`
 
 This is because the leading `C` character is considered part of the format, rather than of the _instance value_.
 

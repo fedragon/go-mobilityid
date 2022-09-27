@@ -16,7 +16,7 @@ type evseId struct {
 	Reader
 }
 
-func newEvseId(countryCode, partyCode, powerOutletId string) *evseId {
+func Id(countryCode, partyCode, powerOutletId string) *evseId {
 	return &evseId{
 		countryCode:   countryCode,
 		operatorCode:  partyCode,
@@ -24,27 +24,27 @@ func newEvseId(countryCode, partyCode, powerOutletId string) *evseId {
 	}
 }
 
-// CountryCode returns the evse's country code
+// CountryCode returns the country code
 func (id *evseId) CountryCode() string {
 	return id.countryCode
 }
 
-// OperatorCode returns the evse's party code
+// OperatorCode returns the party code
 func (id *evseId) OperatorCode() string {
 	return id.operatorCode
 }
 
-// PowerOutletId returns the evse's emi3InstanceValue value
+// PowerOutletId returns the power outlet ID
 func (id *evseId) PowerOutletId() string {
 	return id.powerOutletId
 }
 
-// PartyId returns this evses' party ID
+// PartyId returns the party ID
 func (id *evseId) PartyId() string {
 	return id.CountryCode() + "-" + id.OperatorCode()
 }
 
-// CompactPartyId returns this evses' party ID without separator
+// CompactPartyId returns the party ID without separator
 func (id *evseId) CompactPartyId() string {
 	return id.CountryCode() + id.OperatorCode()
 }
