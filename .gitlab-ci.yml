@@ -1,6 +1,0 @@
-test:
-  image: golang:1.16
-  tags:
-    - build
-  script:
-    - go test -v ./...

@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// porting of https://github.com/NewMotion/mobilityid/blob/master/core/src/main/scala/com/thenewmotion/mobilityid/checkDigit.scala
+// porting of https://github.com/ShellRechargeSolutionsEU/mobilityid/blob/master/core/src/main/scala/com/thenewmotion/mobilityid/checkDigit.scala
 
 var numericValues map[rune]int
 

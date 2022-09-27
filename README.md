@@ -1,6 +1,6 @@
 # go-mobilityid
 
-Porting of the Scala [MobilityId](https://github.com/NewMotion/mobilityid/) library to Go.
+Porting of the Scala [MobilityId](https://github.com/ShellRechargeSolutionsEU/mobilityid/) library to Go.
 
 ## Features
 
